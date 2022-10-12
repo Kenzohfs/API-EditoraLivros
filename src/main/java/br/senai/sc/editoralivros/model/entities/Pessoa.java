@@ -7,12 +7,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tb_pessoa")
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
-public abstract class Pessoa {
+public class Pessoa {
     @Id
     @Column(length = 11, nullable = false, unique = true)
     private Long CPF;
