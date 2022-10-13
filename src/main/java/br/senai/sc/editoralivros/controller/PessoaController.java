@@ -43,9 +43,20 @@ public class PessoaController {
         return ResponseEntity.status(HttpStatus.OK).body(pessoaService.findAll());
     }
 
+    @PutMapping
+    public ResponseEntity<Object> update(@RequestBody @Valid PessoaDTO pessoaDTO) {
+        if (!pessoaService.existsById(pessoaDTO.getCpf())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Esse CPF não existe.");
+        }
+
+        Pessoa pessoa = new Pessoa();
+        BeanUtils.copyProperties(pessoaDTO, pessoa);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pessoaService.save(pessoa));
+    }
+
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody @Valid PessoaDTO pessoaDTO) {
-        if (pessoaService.existsById(pessoaDTO.getCPF())) {
+        if (pessoaService.existsById(pessoaDTO.getCpf())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Este CPF já está cadastrado.");
         }
 
