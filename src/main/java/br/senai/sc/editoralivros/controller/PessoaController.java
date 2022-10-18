@@ -32,7 +32,7 @@ public class PessoaController {
 
     @GetMapping("/{cpf}")
     public ResponseEntity<Object> findById(@PathVariable(value = "cpf") Long cpf) {
-        if (pessoaService.existsById(cpf)) {
+        if (!pessoaService.existsById(cpf)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrada nenhuma pessoa com este CPF.");
         }
         return ResponseEntity.status(HttpStatus.OK).body(pessoaService.findById(cpf).get());
