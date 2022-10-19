@@ -16,8 +16,7 @@ public class PessoaFactory {
                         pessoaDTO.getSobrenome(),
                         pessoaDTO.getEmail(),
                         pessoaDTO.getSenha(),
-                        pessoaDTO.getGenero(),
-                        pessoaDTO.getTipo()
+                        pessoaDTO.getGenero()
                 );
             }
             case 2 -> {
@@ -27,8 +26,7 @@ public class PessoaFactory {
                         pessoaDTO.getSobrenome(),
                         pessoaDTO.getEmail(),
                         pessoaDTO.getSenha(),
-                        pessoaDTO.getGenero(),
-                        pessoaDTO.getTipo()
+                        pessoaDTO.getGenero()
                 );
             }
             default -> {
@@ -38,8 +36,7 @@ public class PessoaFactory {
                         pessoaDTO.getSobrenome(),
                         pessoaDTO.getEmail(),
                         pessoaDTO.getSenha(),
-                        pessoaDTO.getGenero(),
-                        pessoaDTO.getTipo()
+                        pessoaDTO.getGenero()
                 );
             }
         }

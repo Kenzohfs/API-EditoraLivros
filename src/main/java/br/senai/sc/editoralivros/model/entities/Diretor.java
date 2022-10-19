@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("D")
 public class Diretor extends Pessoa {
-    public Diretor(Long cpf, String nome, String sobrenome, String email, String senha, Genero genero, Integer tipoPessoa) {
+    public Diretor(Long cpf, String nome, String sobrenome, String email, String senha, Genero genero) {
         super();
     }
 }

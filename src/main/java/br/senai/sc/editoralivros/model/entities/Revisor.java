@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("R")
 public class Revisor extends Pessoa {
-    public Revisor(Long cpf, String nome, String sobrenome, String email, String senha, Genero genero, Integer tipoPessoa) {
+    public Revisor(Long cpf, String nome, String sobrenome, String email, String senha, Genero genero) {
         super();
     }
 }

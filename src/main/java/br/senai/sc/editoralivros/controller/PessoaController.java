@@ -65,6 +65,7 @@ public class PessoaController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Este E-mail já está cadastrado.");
         }
 
+        System.out.println(pessoaDTO.toString());
         Pessoa pessoa = new PessoaFactory().getPessoa(pessoaDTO);
         BeanUtils.copyProperties(pessoaDTO, pessoa);
         return ResponseEntity.status(HttpStatus.CREATED).body(pessoaService.save(pessoa));

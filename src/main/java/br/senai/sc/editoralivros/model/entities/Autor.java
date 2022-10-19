@@ -11,8 +11,7 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("A")
 public class Autor extends Pessoa {
-
-    public Autor(Long cpf, String nome, String sobrenome, String email, String senha, Genero genero, Integer tipoPessoa) {
+    public Autor(Long cpf, String nome, String sobrenome, String email, String senha, Genero genero) {
         super();
     }
 }
