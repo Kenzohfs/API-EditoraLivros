@@ -2,6 +2,7 @@ package br.senai.sc.editoralivros.controller;
 
 import br.senai.sc.editoralivros.dto.PessoaDTO;
 import br.senai.sc.editoralivros.model.entities.Pessoa;
+import br.senai.sc.editoralivros.model.factory.PessoaFactory;
 import br.senai.sc.editoralivros.model.service.PessoaService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +23,7 @@ public class PessoaController {
     //Spring web -> Interage com o front-end
     private PessoaService pessoaService;
 
-    @GetMapping("/{email}")
+    @GetMapping("/email/{email}")
     public ResponseEntity<Object> findByEmail(@PathVariable(value = "email") String email) {
         if (pessoaService.existsByEmail(email)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrada nenhuma pessoa com este E-mail.");
@@ -30,7 +31,7 @@ public class PessoaController {
         return ResponseEntity.status(HttpStatus.OK).body(pessoaService.findByEmail(email).get());
     }
 
-    @GetMapping("/{cpf}")
+    @GetMapping("/cpf/{cpf}")
     public ResponseEntity<Object> findById(@PathVariable(value = "cpf") Long cpf) {
         if (!pessoaService.existsById(cpf)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrada nenhuma pessoa com este CPF.");
@@ -64,7 +65,7 @@ public class PessoaController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Este E-mail já está cadastrado.");
         }
 
-        Pessoa pessoa = new Pessoa();
+        Pessoa pessoa = new PessoaFactory().getPessoa(pessoaDTO);
         BeanUtils.copyProperties(pessoaDTO, pessoa);
         return ResponseEntity.status(HttpStatus.CREATED).body(pessoaService.save(pessoa));
     }

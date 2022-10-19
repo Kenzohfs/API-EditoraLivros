@@ -22,4 +22,5 @@ public class PessoaDTO {
     private String senha;
 //    @NotBlank
     private Genero genero;
+    private Integer tipo;
 }

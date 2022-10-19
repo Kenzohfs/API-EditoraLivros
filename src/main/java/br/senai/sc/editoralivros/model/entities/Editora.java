@@ -1,25 +1,25 @@
 package br.senai.sc.editoralivros.model.entities;
 
-import java.util.ArrayList;
+import lombok.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode
+@Table(name = "tb_editora")
+@Entity
 public class Editora {
-    private String nome, CNPJ;
+    @Id
+    @Column(length = 14, nullable = false, unique = true)
+    private Long cnpj;
 
-    public Editora(String nome, String CNPJ) {
-        this.nome = nome;
-        this.CNPJ = CNPJ;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Editora{" +
-                "nome='" + nome + '\'' +
-                ", CNPJ='" + CNPJ + '\'' +
-                '}';
-    }
+    @Column(nullable = false)
+    private String nome;
 }
