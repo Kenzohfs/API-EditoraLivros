@@ -30,7 +30,7 @@ public class LivroService {
     }
 
     public List<Livro> findByAutor(Autor autor) {
-        return livroRepository.findByAutor(autor);
+        return livroRepository.findByAutores(autor);
     }
 
     public List<Livro> findAll() {

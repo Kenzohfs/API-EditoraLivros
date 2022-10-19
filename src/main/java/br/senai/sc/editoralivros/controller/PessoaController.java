@@ -55,6 +55,15 @@ public class PessoaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(pessoaService.save(pessoa));
     }
 
+    /*
+     IMPORTANTE: Também é possível fazer a diferenciação da pessoa ao ser cadastrada mandando
+     por PathVariable o tipo de pessoa que será cadastrada, desse jeito não seria necessário
+     pedir no corpo da requisição.
+     E ao fazer isso poderemos diferenciar uma pessoa cadastrada no banco pelo DType
+     Da forma que foi implementada no código abaixo, criamos um valor Discriminator (que substitui o DType)
+     que é o tipo da pessoa, e esse valor é definido no momento da criação da pessoa, sendo passado
+     pelo body da requisição.
+    */
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody @Valid PessoaDTO pessoaDTO) {
         if (pessoaService.existsById(pessoaDTO.getCpf())) {
