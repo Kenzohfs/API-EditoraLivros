@@ -1,7 +1,6 @@
 package br.senai.sc.editoralivros.controller;
 
 import br.senai.sc.editoralivros.dto.LivroDTO;
-import br.senai.sc.editoralivros.model.entities.Arquivo;
 import br.senai.sc.editoralivros.model.entities.Autor;
 import br.senai.sc.editoralivros.model.entities.Livro;
 import br.senai.sc.editoralivros.model.entities.Status;
@@ -9,6 +8,10 @@ import br.senai.sc.editoralivros.model.service.LivroService;
 import br.senai.sc.editoralivros.util.LivroUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -65,6 +68,17 @@ public class LivroController {
     @GetMapping
     public ResponseEntity<List<Livro>> findAll() {
         return ResponseEntity.status(HttpStatus.FOUND).body(livroService.findAll());
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<Livro>> findAllPage(@PageableDefault(
+            page = 2,
+            size = 9,
+            sort = "isbn",
+            direction = Sort.Direction.ASC
+        ) Pageable pageable
+    ) {
+        return ResponseEntity.status(HttpStatus.FOUND).body(livroService.findAll(pageable));
     }
 
     @DeleteMapping("/{isbn}")

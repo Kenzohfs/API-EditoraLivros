@@ -4,6 +4,8 @@ import br.senai.sc.editoralivros.model.entities.Autor;
 import br.senai.sc.editoralivros.model.entities.Livro;
 import br.senai.sc.editoralivros.model.entities.Status;
 import br.senai.sc.editoralivros.repository.LivroRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +37,9 @@ public class LivroService {
 
     public List<Livro> findAll() {
         return livroRepository.findAll();
+    }
+    public Page<Livro> findAll(Pageable pageable) {
+        return livroRepository.findAll(pageable);
     }
 
     public void deleteById(Long isbn) {
