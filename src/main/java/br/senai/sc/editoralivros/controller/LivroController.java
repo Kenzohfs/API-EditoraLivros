@@ -1,16 +1,19 @@
 package br.senai.sc.editoralivros.controller;
 
 import br.senai.sc.editoralivros.dto.LivroDTO;
+import br.senai.sc.editoralivros.model.entities.Arquivo;
 import br.senai.sc.editoralivros.model.entities.Autor;
 import br.senai.sc.editoralivros.model.entities.Livro;
 import br.senai.sc.editoralivros.model.entities.Status;
 import br.senai.sc.editoralivros.model.service.LivroService;
+import br.senai.sc.editoralivros.util.LivroUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -23,14 +26,18 @@ public class LivroController {
     private LivroService livroService;
 
     @PostMapping
-    public ResponseEntity<Object> save(@RequestBody @Valid LivroDTO livroDTO) {
-        if (livroService.existsById(livroDTO.getIsbn())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Há um livro com o ISBN " + livroDTO.getIsbn() + "cadastrado.");
+    public ResponseEntity<Object> save(@RequestParam("livro") String livroJson,
+                                       @RequestParam("arquivo") MultipartFile file) {
+        LivroUtil util = new LivroUtil();
+        Livro livro = util.convertJsonToModel(livroJson);
+
+        if (livroService.existsById(livro.getIsbn())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Há um livro com o ISBN " + livro.getIsbn() + "cadastrado.");
         }
 
-        Livro livro = new Livro();
-        BeanUtils.copyProperties(livroDTO, livro);
+        livro.setArquivo(file);
         livro.setStatus(Status.AGUARDANDO_REVISAO);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(livroService.save(livro));
     }
 
