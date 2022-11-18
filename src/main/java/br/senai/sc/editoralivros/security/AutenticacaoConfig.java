@@ -38,7 +38,8 @@ public class AutenticacaoConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().authenticated()
 //                    .and().formLogin()
                     .and().csrf().disable()
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and().addFilterBefore(new AutenticacaoFiltro(autenticacaoService), AutenticacaoFiltro.class);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
