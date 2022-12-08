@@ -1,6 +1,7 @@
 package br.senai.sc.editoralivros.security;
 
-import br.senai.sc.editoralivros.model.entities.Pessoa;
+import br.senai.sc.editoralivros.security.service.JpaService;
+import br.senai.sc.editoralivros.security.users.UserJpa;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,25 +15,25 @@ import java.io.IOException;
 
 @AllArgsConstructor
 public class AutenticacaoFiltro extends OncePerRequestFilter {
-    private AutenticacaoService autenticacaoService;
+    private JpaService jpaService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
-        if (token.startsWith("Bearer ")) {
+        if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
         } else {
             token = null;
         }
 
-        Boolean valido = autenticacaoService.validarToken(token);
+        Boolean valido = jpaService.validarToken(token);
 
         if (valido) {
-            Pessoa usuario = autenticacaoService.getUsuario(token);
+            UserJpa usuario = jpaService.getUsuario(token);
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(usuario.getUsername(), null, usuario.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-        } else {
+        } else if (!request.getRequestURI().equals("/login")) {
             response.setStatus(401);
         }
 
