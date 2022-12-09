@@ -39,25 +39,33 @@ public class AutenticacaoConfig {
 
             httpSecurity.authorizeHttpRequests()
                     // Para a rota de login, estamos liberando o método post a todos
-                    .antMatchers("/login").permitAll()
-                    .antMatchers(HttpMethod.POST, "/editoralivros/pessoa").permitAll()
+                    .antMatchers("/editoralivros/login", "/editoralivros/usuarios").permitAll()
+//                    .antMatchers(HttpMethod.POST, "/editoralivros/pessoa").permitAll()
                     // Determina que todas as demais requisições terão de ser autenticadas
                     .anyRequest().authenticated()
+//                    .anyRequest().permitAll()
                     .and().csrf().disable()
 
                     .formLogin().permitAll()
+
+                        .loginPage("/editoralivros/login")
+                        .defaultSuccessUrl("/editoralivros/home")
+
                     .and()
                     .oauth2Login()
                         .userInfoEndpoint()
                             .userService(googleService)
                         .and()
-                        .defaultSuccessUrl("/home")
-                    .and()
-                    .logout().permitAll()
-                    .and()
 
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and().addFilterBefore(new AutenticacaoFiltro(jpaService), UsernamePasswordAuthenticationFilter.class);
+                        .loginPage("/editoralivros/login")
+                        .defaultSuccessUrl("/editoralivros/home")
+
+                    .and()
+                    .logout().permitAll();
+//                    .and()
+//
+//                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                    .and().addFilterBefore(new AutenticacaoFiltro(jpaService), UsernamePasswordAuthenticationFilter.class);
 
             return httpSecurity.build();
         } catch (Exception e) {
