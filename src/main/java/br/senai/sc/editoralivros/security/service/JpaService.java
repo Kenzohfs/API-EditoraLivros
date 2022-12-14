@@ -24,8 +24,10 @@ public class JpaService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("chegou aq " + username);
         Optional<Pessoa> pessoaOptional = pessoaRepository.findByEmail(username);
         if (pessoaOptional.isPresent()) {
+            System.out.println("a " + pessoaOptional.get());
             return new UserJpa(pessoaOptional.get());
         }
         throw new UsernameNotFoundException("Usuário não encontrado!");

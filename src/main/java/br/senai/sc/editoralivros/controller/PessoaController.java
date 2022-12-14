@@ -65,21 +65,31 @@ public class PessoaController {
      que é o tipo da pessoa, e esse valor é definido no momento da criação da pessoa, sendo passado
      pelo body da requisição.
     */
+//    @PostMapping
+//    public ResponseEntity<Object> save(@RequestBody @Valid PessoaDTO pessoaDTO) {
+//        if (pessoaService.existsById(pessoaDTO.getCpf())) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("Este CPF já está cadastrado.");
+//        }
+//
+//        if (pessoaService.existsByEmail(pessoaDTO.getEmail())) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("Este E-mail já está cadastrado.");
+//        }
+//
+//        Pessoa pessoa = new PessoaFactory().getPessoa(pessoaDTO);
+//        BeanUtils.copyProperties(pessoaDTO, pessoa);
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        pessoa.setSenha(encoder.encode(pessoa.getSenha()));
+//        return ResponseEntity.status(HttpStatus.CREATED).body(pessoaService.save(pessoa));
+//    }
+
     @PostMapping
-    public ResponseEntity<Object> save(@RequestBody @Valid PessoaDTO pessoaDTO) {
-        if (pessoaService.existsById(pessoaDTO.getCpf())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Este CPF já está cadastrado.");
-        }
-
-        if (pessoaService.existsByEmail(pessoaDTO.getEmail())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Este E-mail já está cadastrado.");
-        }
-
+    public String save(PessoaDTO pessoaDTO) {
         Pessoa pessoa = new PessoaFactory().getPessoa(pessoaDTO);
         BeanUtils.copyProperties(pessoaDTO, pessoa);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         pessoa.setSenha(encoder.encode(pessoa.getSenha()));
-        return ResponseEntity.status(HttpStatus.CREATED).body(pessoaService.save(pessoa));
+        pessoaService.save(pessoa);
+        return "home";
     }
 
     @DeleteMapping("/{cpf}")

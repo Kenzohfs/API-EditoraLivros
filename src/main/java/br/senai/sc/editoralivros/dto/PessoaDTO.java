@@ -2,11 +2,13 @@ package br.senai.sc.editoralivros.dto;
 
 import br.senai.sc.editoralivros.model.entities.Genero;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 
 @Getter
+@Setter
 @ToString
 public class PessoaDTO {
 //    @NotBlank
@@ -22,5 +24,5 @@ public class PessoaDTO {
     private String senha;
 //    @NotBlank
     private Genero genero;
-    private Integer tipo;
+    private Integer tipo = 1;
 }
