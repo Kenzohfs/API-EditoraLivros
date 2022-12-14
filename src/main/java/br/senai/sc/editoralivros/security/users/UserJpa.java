@@ -14,13 +14,13 @@ public class UserJpa implements UserDetails {
 
     private Collection<GrantedAuthority> authorities;
 
-    private boolean accountNonExpired;
+    private boolean accountNonExpired = true;
 
-    private boolean accountNonLocked;
+    private boolean accountNonLocked = true;
 
-    private boolean credentialsNonExpired;
+    private boolean credentialsNonExpired = true;
 
-    private boolean enabled;
+    private boolean enabled = true;
 
     public UserJpa(Pessoa pessoa) {
         this.pessoa = pessoa;
@@ -28,7 +28,7 @@ public class UserJpa implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return pessoa.getSenha();
     }
 
     @Override

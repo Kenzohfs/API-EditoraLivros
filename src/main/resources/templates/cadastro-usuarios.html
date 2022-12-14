@@ -14,25 +14,21 @@
             <h1 class="display-3  text-white p-4">Cadastrar Usuário</h1>
         </header>
         <main>
-            <form class="mb-3 container">
+            <form class="mb-3 container" th:action="@{/editoralivros/pessoa}" method="post" th:object="${pessoa}">
                 <div class="mb-3">
                     <div class="ms-2 form-label fw-semibold">Nome</div>
-                    <input type="text" id="nome" class="form-control"/>
+                    <input type="text" id="nome" class="form-control" th:field="*{nome}"/>
                 </div>
                 <div class="mb-3">
                     <div class="ms-2 form-label fw-semibold">Sobrenome</div>
-                    <input type="text" id="sobrenome" class="form-control"/>
+                    <input type="text" id="sobrenome" class="form-control" th:field="*{sobrenome}"/>
                 </div>
                 <div class="mb-3">
                     <div class="ms-2 form-label fw-semibold">E-mail</div>
-                    <input type="email"  id="email" class="form-control"/>
+                    <input type="email"  id="email" class="form-control" th:field="*{email}"/>
                 </div>
                 <div class="mb-3">
-                    <div class="ms-2 form-label fw-semibold">Usuário</div>
-                    <input type="text"  id="usuario" class="form-control"/>
-                </div>
-                <div class="mb-3">
-                    <div class="ms-2 form-label fw-semibold">CPF</div>
+                    <div class="ms-2 form-label fw-semibold" th:field="*{cpf}">CPF</div>
                     <input type="text" id="cpf" class="form-control"/>
                 </div>
                 <div class="mb-3">
@@ -43,11 +39,11 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <div class="ms-2 form-label fw-semibold">Senha</div>
+                    <div class="ms-2 form-label fw-semibold" th:field="*{senha}">Senha</div>
                     <input type="password" id="senha" class="form-control"/>
                 </div>
                 <div class="mb-3">
-                    <div class="ms-2 form-label fw-semibold">Confirmar senha</div>
+                    <div class="ms-2 form-label fw-semibold" th:field="*{senha}">Confirmar senha</div>
                     <input type="password" id="confirma-senha" class="form-control"/>
                 </div>
                 <div class="container d-flex flex-row mb-4">

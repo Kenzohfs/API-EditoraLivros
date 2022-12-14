@@ -13,13 +13,13 @@
         <h1 class="display-3 text-center text-white p-4">Home</h1>
             <nav class="navbar bg-light shadow mb-4">
                 <div class="container-fluid">
-                    <a class="navbar-brand fw-semibold">Cadastrar livro</a>
-                    <a class="navbar-brand fw-semibold">Cadastrar revisor</a>
+                    <a th:href="@{/editoralivros/livros}" class="navbar-brand fw-semibold">Cadastrar livro</a>
+                    <a th:href="@{/editoralivros/usuarios}" class="navbar-brand fw-semibold">Cadastrar revisor</a>
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Pesquisa">
                         <button class="btn btn-primary fw-semibold" type="submit">Pesquisar</button>
                     </form>
-                    <form class="position-relative">
+                    <form th:action="@{/logout}" class="position-relative">
                         <button type="submit" class="btn btn-primary fw-semibold">Logout</button>
                     </form>
                 </div>
