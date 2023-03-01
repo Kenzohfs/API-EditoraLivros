@@ -7,6 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+/**
+ *
+ */
 @Data
 public class UserJpa implements UserDetails {
 
