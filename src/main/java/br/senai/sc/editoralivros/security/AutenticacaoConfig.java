@@ -52,7 +52,7 @@ public class AutenticacaoConfig {
         try {
             httpSecurity.authorizeHttpRequests()
                     // Para a rota de login, estamos liberando o método post a todos
-                    .antMatchers("/editoralivros/login", "/editoralivros/usuarios", "/editoralivros/pessoa").permitAll()
+                    .antMatchers("/editoralivros/login", "/editoralivros/usuarios", "/editoralivros/pessoa", "/login").permitAll()
 
                     // Determina que todas as demais requisições terão de ser autenticadas
                     .anyRequest().authenticated();
