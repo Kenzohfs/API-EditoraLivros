@@ -3,8 +3,10 @@ package br.senai.sc.editoralivros.security;
 import br.senai.sc.editoralivros.security.service.JpaService;
 import br.senai.sc.editoralivros.security.users.UserJpa;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -15,6 +17,7 @@ import java.io.IOException;
 
 @AllArgsConstructor
 public class AutenticacaoFiltro extends OncePerRequestFilter {
+    private TokenUtils tokenUtils;
     private JpaService jpaService;
 
     @Override
@@ -26,10 +29,12 @@ public class AutenticacaoFiltro extends OncePerRequestFilter {
             token = null;
         }
 
-        Boolean valido = jpaService.validarToken(token);
+        Boolean valido = tokenUtils.validarToken(token);
 
         if (valido) {
-            UserJpa usuario = jpaService.getUsuario(token);
+            Long usuarioCPF = tokenUtils.getUsuarioCPF(token);
+            UserDetails usuario = jpaService.loadUserByUsername(usuarioCPF.toString());
+
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(usuario.getUsername(), null, usuario.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
