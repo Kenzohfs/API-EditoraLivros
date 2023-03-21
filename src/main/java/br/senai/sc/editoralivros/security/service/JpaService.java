@@ -3,17 +3,12 @@ package br.senai.sc.editoralivros.security.service;
 import br.senai.sc.editoralivros.model.entities.Pessoa;
 import br.senai.sc.editoralivros.repository.PessoaRepository;
 import br.senai.sc.editoralivros.security.users.UserJpa;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -23,19 +18,27 @@ public class JpaService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("chegou aq " + username);
-        Optional<Pessoa> pessoaOptional = pessoaRepository.findByEmail(username);
-        if (pessoaOptional.isPresent()) {
-            System.out.println("a " + pessoaOptional.get());
-            return new UserJpa(pessoaOptional.get());
-        } else {
-            pessoaOptional = pessoaRepository.findById(Long.parseLong(username));
+        Optional<Pessoa> pessoaOptional;
 
-            if (pessoaOptional.isPresent()) {
-                return new UserJpa(pessoaOptional.get());
-            }
-
-            throw new UsernameNotFoundException("Usuário não encontrado!");
+        try {
+            Long cpf = Long.parseLong(username);
+            pessoaOptional = pessoaRepository.findById(cpf);
+        } catch (NumberFormatException e) {
+            pessoaOptional = pessoaRepository.findByEmail(username);
         }
+
+        if (pessoaOptional.isPresent()) {
+            return new UserJpa(pessoaOptional.get());
+        }
+
+        throw new UsernameNotFoundException("Usuário não encontrado!");
+    }
+
+    public UserDetails loadUserByCPF(Long cpf) throws UsernameNotFoundException {
+        Optional<Pessoa> pessoaOptional = pessoaRepository.findById(cpf);
+        if (pessoaOptional.isPresent()) {
+            return new UserJpa(pessoaOptional.get());
+        }
+        throw new UsernameNotFoundException("Usuário não encontrado!");
     }
 }

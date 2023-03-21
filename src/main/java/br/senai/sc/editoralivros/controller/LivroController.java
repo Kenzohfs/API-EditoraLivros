@@ -35,7 +35,7 @@ public class LivroController {
         Livro livro = util.convertJsonToModel(livroJson);
 
         if (livroService.existsById(livro.getIsbn())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Há um livro com o ISBN " + livro.getIsbn() + "cadastrado.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Há um livro com o ISBN " + livro.getIsbn() + " cadastrado.");
         }
 
         livro.setArquivo(file);

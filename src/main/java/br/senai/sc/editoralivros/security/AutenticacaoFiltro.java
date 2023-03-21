@@ -1,9 +1,7 @@
 package br.senai.sc.editoralivros.security;
 
 import br.senai.sc.editoralivros.security.service.JpaService;
-import br.senai.sc.editoralivros.security.users.UserJpa;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,18 +20,32 @@ public class AutenticacaoFiltro extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = request.getHeader("Authorization");
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-        } else {
-            token = null;
+        if (
+                request.getRequestURI().equals("/login") ||
+                request.getRequestURI().equals("/login/auth") ||
+                request.getRequestURI().equals("/logout")
+        ) {
+            filterChain.doFilter(request, response);
+            return;
         }
+
+        // Dessa forma precisamos add no header da request o token do usuário,
+        // mas podemos fazer com que a API busque o cookie que contém o token
+//        String token = request.getHeader("Authorization");
+//        if (token != null && token.startsWith("Bearer ")) {
+//            token = token.substring(7);
+//        } else {
+//            token = null;
+//        }
+
+        // Busca o Cookie através do navegador do usuário
+        String token = tokenUtils.buscarCookie(request);
 
         Boolean valido = tokenUtils.validarToken(token);
 
         if (valido) {
             Long usuarioCPF = tokenUtils.getUsuarioCPF(token);
-            UserDetails usuario = jpaService.loadUserByUsername(usuarioCPF.toString());
+            UserDetails usuario = jpaService.loadUserByCPF(usuarioCPF);
 
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(usuario.getUsername(), null, usuario.getAuthorities());
