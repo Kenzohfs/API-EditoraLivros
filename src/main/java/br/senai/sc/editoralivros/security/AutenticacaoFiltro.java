@@ -24,6 +24,8 @@ public class AutenticacaoFiltro extends OncePerRequestFilter {
                 request.getRequestURI().equals("/login") ||
                 request.getRequestURI().equals("/login/auth") ||
                 request.getRequestURI().equals("/logout")
+//                        || request.getRequestURI().equals("/editoralivros/pessoa")
+
         ) {
             filterChain.doFilter(request, response);
             return;
