@@ -66,7 +66,16 @@ public class AutenticacaoConfig {
         try {
             httpSecurity.authorizeHttpRequests()
                     // Para a rota de login, estamos liberando o método post a todos
-                    .antMatchers("/editoralivros/login", "/editoralivros/usuarios", "/editoralivros/pessoa", "/login", "/login/auth").permitAll()
+                    .antMatchers(
+                            "/editoralivros/login",
+                            "/editoralivros/usuarios",
+                            "/editoralivros/pessoa",
+                            "/login",
+                            "/login/auth",
+                            "/v3/api-docs/**",
+                            "/swagger-ui.html",
+                            "/swagger-ui/**")
+                    .permitAll()
                     .antMatchers(HttpMethod.POST, "/editoralivros/livro").hasAuthority("Autor")
                     // Determina que todas as demais requisições terão de ser autenticadas
                     .anyRequest().authenticated();
