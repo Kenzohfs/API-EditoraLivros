@@ -52,9 +52,12 @@ public class AutenticacaoFiltro extends OncePerRequestFilter {
             Long usuarioCPF = tokenUtils.getUsuarioCPF(token);
             UserDetails usuario = jpaService.loadUserByCPF(usuarioCPF);
 
+            // Verifica se o usuário está autenticado, por isso mandamos suas autoridades
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(usuario.getUsername(), null, usuario.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+
+            // Como estamos usando Session Stateless, essa linha não é precisa
+//            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         } else if (!request.getRequestURI().equals("/editoralivros/login") || !request.getRequestURI().equals("/editoralivros/usuarios")
         ) {
             response.setStatus(401);

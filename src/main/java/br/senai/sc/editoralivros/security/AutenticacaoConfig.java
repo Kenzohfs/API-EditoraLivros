@@ -55,7 +55,7 @@ public class AutenticacaoConfig {
         corsConfiguration.setAllowedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
+        source.registerCorsConfiguration("/**", corsConfiguration); // Permitir qualquer coisa do servidor que vai consumir a API (localhost:8080/qualquer-coisa)
 
         return source;
     }

@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 public class UserJpa implements UserDetails {
 
-    private Pessoa pessoa;
+    private Pessoa pessoa; // Poderia ter sido implementado o UserDetails na própria classe Pessoa
 
     private Collection<GrantedAuthority> authorities;
 
